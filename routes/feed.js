@@ -20,7 +20,7 @@ router.get('/post/:postId', isAuth, feedController.getPostDetails);
 router.put('/post/:postId', [
     body('title').trim().isLength({min: 5}),
     body('content').trim().isLength({min: 5})
-],feedController.updatePostDetails);
+], isAuth, feedController.updatePostDetails);
 
 router.delete('/post/:postId', isAuth, feedController.deletePost)
 

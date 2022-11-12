@@ -5,9 +5,7 @@ const UserShcema = require('../models/user');
 
 exports.getStatus = (req, res, next) => {
     const userId = req.userId;
-    console.log("userId >>>", userId);
     UserShcema.findById(userId).then(user => {
-        console.log("user >>>", user);
         if(!user) {
             const error = new Error('User not found!');
             error.status = 402;
