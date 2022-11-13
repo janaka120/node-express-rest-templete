@@ -1,13 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 const feedRoutes = require('./routes/feed');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
 
 const constants = require('./utils/constant');
 
@@ -50,11 +48,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/feed', feedRoutes);
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
 
 app.use((error, req, res, next) => {
-    console.log('common error middleware >>>', error);
     const status = error.status || 500;
     const message = error.message;
     const data = error.data;
@@ -66,11 +61,7 @@ app.use((error, req, res, next) => {
 // *** use mongoose code base
 mongoose.connect(MONGODB_URL)
 .then(result => {
-    const server = app.listen(8080);
-    const io = require('./socket').init(server);
-    io.on('connection', socket => {
-        console.log('Client connected!');
-    });
+    app.listen(8080);
     console.log('connected to port 8080');
 }).catch(err => {
     console.log(err);
